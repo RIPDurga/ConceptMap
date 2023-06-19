@@ -1,0 +1,265 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 800px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "rgba(255, 0, 0, 1.0)", "id": "Krematorium", "label": "Krematorium", "shape": "dot", "title": "Krematorium"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Strafanstalt", "label": "Strafanstalt", "shape": "dot", "title": "Strafanstalt"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Gut \u003cLandwirtschaft\u003e", "label": "Gut \u003cLandwirtschaft\u003e", "shape": "dot", "title": "Gut \u003cLandwirtschaft\u003e"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Steinbank", "label": "Steinbank", "shape": "dot", "title": "Steinbank"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Museumsbau", "label": "Museumsbau", "shape": "dot", "title": "Museumsbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Hotel", "label": "Hotel", "shape": "dot", "title": "Hotel"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Landgut", "label": "Landgut", "shape": "dot", "title": "Landgut"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Amtsgericht", "label": "Amtsgericht", "shape": "dot", "title": "Amtsgericht"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Zollstelle", "label": "Zollstelle", "shape": "dot", "title": "Zollstelle"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Molkerei", "label": "Molkerei", "shape": "dot", "title": "Molkerei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Dienstgeb\u00e4ude", "label": "Dienstgeb\u00e4ude", "shape": "dot", "title": "Dienstgeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Zunfthaus", "label": "Zunfthaus", "shape": "dot", "title": "Zunfthaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Bibliotheksbau", "label": "Bibliotheksbau", "shape": "dot", "title": "Bibliotheksbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Verlagshaus", "label": "Verlagshaus", "shape": "dot", "title": "Verlagshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Polizeiunterkunft", "label": "Polizeiunterkunft", "shape": "dot", "title": "Polizeiunterkunft"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kraftwerk", "label": "Kraftwerk", "shape": "dot", "title": "Kraftwerk"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Staffage", "label": "Staffage", "shape": "dot", "title": "Staffage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Werkswohnhaus", "label": "Werkswohnhaus", "shape": "dot", "title": "Werkswohnhaus"}, {"color": [0.9594002306805075, 0.9784083044982699, 0.9970472895040369, 1.0], "id": "Lagergeb\u00e4ude", "label": "Lagergeb\u00e4ude", "shape": "dot", "title": "Lagergeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Zollhaus", "label": "Zollhaus", "shape": "dot", "title": "Zollhaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Heim", "label": "Heim", "shape": "dot", "title": "Heim"}, {"color": [0.9194156093810073, 0.9528181468665897, 0.9842522106881968, 1.0], "id": "Haus", "label": "Haus", "shape": "dot", "title": "Haus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Dampfentw\u00e4sserungsanstalt", "label": "Dampfentw\u00e4sserungsanstalt", "shape": "dot", "title": "Dampfentw\u00e4sserungsanstalt"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Tonnenschuppen", "label": "Tonnenschuppen", "shape": "dot", "title": "Tonnenschuppen"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Halle", "label": "Halle", "shape": "dot", "title": "Halle"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "M\u00fcllerwohnhaus", "label": "M\u00fcllerwohnhaus", "shape": "dot", "title": "M\u00fcllerwohnhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bibliothek", "label": "Bibliothek", "shape": "dot", "title": "Bibliothek"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Polizeigeb\u00e4ude", "label": "Polizeigeb\u00e4ude", "shape": "dot", "title": "Polizeigeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Wandmalerei", "label": "Wandmalerei", "shape": "dot", "title": "Wandmalerei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kaffeehaus", "label": "Kaffeehaus", "shape": "dot", "title": "Kaffeehaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Packhaus", "label": "Packhaus", "shape": "dot", "title": "Packhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Garage", "label": "Garage", "shape": "dot", "title": "Garage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Auktionshalle", "label": "Auktionshalle", "shape": "dot", "title": "Auktionshalle"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Fabrikgeb\u00e4ude", "label": "Fabrikgeb\u00e4ude", "shape": "dot", "title": "Fabrikgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Orangerie", "label": "Orangerie", "shape": "dot", "title": "Orangerie"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Polizeiwache", "label": "Polizeiwache", "shape": "dot", "title": "Polizeiwache"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wohnanlage", "label": "Wohnanlage", "shape": "dot", "title": "Wohnanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Sportanlage", "label": "Sportanlage", "shape": "dot", "title": "Sportanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Plastik", "label": "Plastik", "shape": "dot", "title": "Plastik"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Teehaus", "label": "Teehaus", "shape": "dot", "title": "Teehaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Parlament", "label": "Parlament", "shape": "dot", "title": "Parlament"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "W\u00e4scherei", "label": "W\u00e4scherei", "shape": "dot", "title": "W\u00e4scherei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kirchturm", "label": "Kirchturm", "shape": "dot", "title": "Kirchturm"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kran", "label": "Kran", "shape": "dot", "title": "Kran"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Waage", "label": "Waage", "shape": "dot", "title": "Waage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Sielanlage", "label": "Sielanlage", "shape": "dot", "title": "Sielanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Jugendhaus", "label": "Jugendhaus", "shape": "dot", "title": "Jugendhaus"}, {"color": [0.9594002306805075, 0.9784083044982699, 0.9970472895040369, 1.0], "id": "Jugendzentrum", "label": "Jugendzentrum", "shape": "dot", "title": "Jugendzentrum"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wappenstein", "label": "Wappenstein", "shape": "dot", "title": "Wappenstein"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gef\u00e4ngnis", "label": "Gef\u00e4ngnis", "shape": "dot", "title": "Gef\u00e4ngnis"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Bank \u003cM\u00f6bel\u003e", "label": "Bank \u003cM\u00f6bel\u003e", "shape": "dot", "title": "Bank \u003cM\u00f6bel\u003e"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Hofmeierhaus", "label": "Hofmeierhaus", "shape": "dot", "title": "Hofmeierhaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Meierhof", "label": "Meierhof", "shape": "dot", "title": "Meierhof"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pier", "label": "Pier", "shape": "dot", "title": "Pier"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Portal", "label": "Portal", "shape": "dot", "title": "Portal"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Handwerkerhaus", "label": "Handwerkerhaus", "shape": "dot", "title": "Handwerkerhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bunker", "label": "Bunker", "shape": "dot", "title": "Bunker"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Feuerwehrhaus", "label": "Feuerwehrhaus", "shape": "dot", "title": "Feuerwehrhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gildehaus", "label": "Gildehaus", "shape": "dot", "title": "Gildehaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Sondergarten", "label": "Sondergarten", "shape": "dot", "title": "Sondergarten"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Speicher", "label": "Speicher", "shape": "dot", "title": "Speicher"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gesindehaus", "label": "Gesindehaus", "shape": "dot", "title": "Gesindehaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Zellengef\u00e4ngnis", "label": "Zellengef\u00e4ngnis", "shape": "dot", "title": "Zellengef\u00e4ngnis"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Krankenstation", "label": "Krankenstation", "shape": "dot", "title": "Krankenstation"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Dock", "label": "Dock", "shape": "dot", "title": "Dock"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wohnheim", "label": "Wohnheim", "shape": "dot", "title": "Wohnheim"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Landsitz", "label": "Landsitz", "shape": "dot", "title": "Landsitz"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Hitlerjugendheim", "label": "Hitlerjugendheim", "shape": "dot", "title": "Hitlerjugendheim"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Siel", "label": "Siel", "shape": "dot", "title": "Siel"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Verlagsgeb\u00e4ude", "label": "Verlagsgeb\u00e4ude", "shape": "dot", "title": "Verlagsgeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Stallbau", "label": "Stallbau", "shape": "dot", "title": "Stallbau"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Rundfunkgeb\u00e4ude", "label": "Rundfunkgeb\u00e4ude", "shape": "dot", "title": "Rundfunkgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Altenheim", "label": "Altenheim", "shape": "dot", "title": "Altenheim"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wachhaus", "label": "Wachhaus", "shape": "dot", "title": "Wachhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Mauer", "label": "Mauer", "shape": "dot", "title": "Mauer"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wohnhaus", "label": "Wohnhaus", "shape": "dot", "title": "Wohnhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Katechesierhaus", "label": "Katechesierhaus", "shape": "dot", "title": "Katechesierhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pumpbrunnen", "label": "Pumpbrunnen", "shape": "dot", "title": "Pumpbrunnen"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Bankgeb\u00e4ude", "label": "Bankgeb\u00e4ude", "shape": "dot", "title": "Bankgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pfarrgarten", "label": "Pfarrgarten", "shape": "dot", "title": "Pfarrgarten"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Packhalle", "label": "Packhalle", "shape": "dot", "title": "Packhalle"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Sportst\u00e4tte", "label": "Sportst\u00e4tte", "shape": "dot", "title": "Sportst\u00e4tte"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Waisenhaus", "label": "Waisenhaus", "shape": "dot", "title": "Waisenhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gartenhaus", "label": "Gartenhaus", "shape": "dot", "title": "Gartenhaus"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Krankenhausbau", "label": "Krankenhausbau", "shape": "dot", "title": "Krankenhausbau"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Hotelbau", "label": "Hotelbau", "shape": "dot", "title": "Hotelbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wandbild", "label": "Wandbild", "shape": "dot", "title": "Wandbild"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Einfriedung", "label": "Einfriedung", "shape": "dot", "title": "Einfriedung"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Werft", "label": "Werft", "shape": "dot", "title": "Werft"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Stiftsgeb\u00e4ude", "label": "Stiftsgeb\u00e4ude", "shape": "dot", "title": "Stiftsgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pressehaus", "label": "Pressehaus", "shape": "dot", "title": "Pressehaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "B\u00f6rsengeb\u00e4ude", "label": "B\u00f6rsengeb\u00e4ude", "shape": "dot", "title": "B\u00f6rsengeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wasserturm", "label": "Wasserturm", "shape": "dot", "title": "Wasserturm"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Hofanlage", "label": "Hofanlage", "shape": "dot", "title": "Hofanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Doppelhaus", "label": "Doppelhaus", "shape": "dot", "title": "Doppelhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Turnhalle", "label": "Turnhalle", "shape": "dot", "title": "Turnhalle"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Predigerhaus", "label": "Predigerhaus", "shape": "dot", "title": "Predigerhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Leuchtfeuer", "label": "Leuchtfeuer", "shape": "dot", "title": "Leuchtfeuer"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Konzerthaus", "label": "Konzerthaus", "shape": "dot", "title": "Konzerthaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Apotheke", "label": "Apotheke", "shape": "dot", "title": "Apotheke"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Burg", "label": "Burg", "shape": "dot", "title": "Burg"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Leuchtturm", "label": "Leuchtturm", "shape": "dot", "title": "Leuchtturm"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Kino", "label": "Kino", "shape": "dot", "title": "Kino"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "K\u00fcchenbau", "label": "K\u00fcchenbau", "shape": "dot", "title": "K\u00fcchenbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Reiterstandbild", "label": "Reiterstandbild", "shape": "dot", "title": "Reiterstandbild"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Verkehrsturm", "label": "Verkehrsturm", "shape": "dot", "title": "Verkehrsturm"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Garten", "label": "Garten", "shape": "dot", "title": "Garten"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Lagerhaus", "label": "Lagerhaus", "shape": "dot", "title": "Lagerhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Rathaus", "label": "Rathaus", "shape": "dot", "title": "Rathaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Arkade", "label": "Arkade", "shape": "dot", "title": "Arkade"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Theater", "label": "Theater", "shape": "dot", "title": "Theater"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Feuerwehr", "label": "Feuerwehr", "shape": "dot", "title": "Feuerwehr"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Friedhof", "label": "Friedhof", "shape": "dot", "title": "Friedhof"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Fabrik", "label": "Fabrik", "shape": "dot", "title": "Fabrik"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Museum", "label": "Museum", "shape": "dot", "title": "Museum"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gutshaus", "label": "Gutshaus", "shape": "dot", "title": "Gutshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kaserne", "label": "Kaserne", "shape": "dot", "title": "Kaserne"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Amtshaus", "label": "Amtshaus", "shape": "dot", "title": "Amtshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Mietshaus", "label": "Mietshaus", "shape": "dot", "title": "Mietshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Zollamt", "label": "Zollamt", "shape": "dot", "title": "Zollamt"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Mietshausanlage", "label": "Mietshausanlage", "shape": "dot", "title": "Mietshausanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kegelbahn", "label": "Kegelbahn", "shape": "dot", "title": "Kegelbahn"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schornstein", "label": "Schornstein", "shape": "dot", "title": "Schornstein"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bauernhaus", "label": "Bauernhaus", "shape": "dot", "title": "Bauernhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wirtschaftsgeb\u00e4ude", "label": "Wirtschaftsgeb\u00e4ude", "shape": "dot", "title": "Wirtschaftsgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "G\u00e4rtnerhaus", "label": "G\u00e4rtnerhaus", "shape": "dot", "title": "G\u00e4rtnerhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Laube", "label": "Laube", "shape": "dot", "title": "Laube"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Park", "label": "Park", "shape": "dot", "title": "Park"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pastorenhaus", "label": "Pastorenhaus", "shape": "dot", "title": "Pastorenhaus"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Kirchenbau", "label": "Kirchenbau", "shape": "dot", "title": "Kirchenbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Seezeichen", "label": "Seezeichen", "shape": "dot", "title": "Seezeichen"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Verwaltungsbau", "label": "Verwaltungsbau", "shape": "dot", "title": "Verwaltungsbau"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Schulgeb\u00e4ude", "label": "Schulgeb\u00e4ude", "shape": "dot", "title": "Schulgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Praxishaus", "label": "Praxishaus", "shape": "dot", "title": "Praxishaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Theaterbau", "label": "Theaterbau", "shape": "dot", "title": "Theaterbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Landhaus", "label": "Landhaus", "shape": "dot", "title": "Landhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Verwalterhaus", "label": "Verwalterhaus", "shape": "dot", "title": "Verwalterhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schutzh\u00fctte", "label": "Schutzh\u00fctte", "shape": "dot", "title": "Schutzh\u00fctte"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Verwaltungsgeb\u00e4ude", "label": "Verwaltungsgeb\u00e4ude", "shape": "dot", "title": "Verwaltungsgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Skulptur", "label": "Skulptur", "shape": "dot", "title": "Skulptur"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Brunnen", "label": "Brunnen", "shape": "dot", "title": "Brunnen"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Verkehrsbau", "label": "Verkehrsbau", "shape": "dot", "title": "Verkehrsbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Parkanlage", "label": "Parkanlage", "shape": "dot", "title": "Parkanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Krankenhaus", "label": "Krankenhaus", "shape": "dot", "title": "Krankenhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Remise", "label": "Remise", "shape": "dot", "title": "Remise"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Bauernhof", "label": "Bauernhof", "shape": "dot", "title": "Bauernhof"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "K\u00fcchengeb\u00e4ude", "label": "K\u00fcchengeb\u00e4ude", "shape": "dot", "title": "K\u00fcchengeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Fenster", "label": "Fenster", "shape": "dot", "title": "Fenster"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Waagehaus", "label": "Waagehaus", "shape": "dot", "title": "Waagehaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Backhaus", "label": "Backhaus", "shape": "dot", "title": "Backhaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Parlamentsgeb\u00e4ude", "label": "Parlamentsgeb\u00e4ude", "shape": "dot", "title": "Parlamentsgeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Torbau", "label": "Torbau", "shape": "dot", "title": "Torbau"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Wachlokal", "label": "Wachlokal", "shape": "dot", "title": "Wachlokal"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Taufbecken", "label": "Taufbecken", "shape": "dot", "title": "Taufbecken"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Taufstein", "label": "Taufstein", "shape": "dot", "title": "Taufstein"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schmiede", "label": "Schmiede", "shape": "dot", "title": "Schmiede"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kontorhaus", "label": "Kontorhaus", "shape": "dot", "title": "Kontorhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Propstei", "label": "Propstei", "shape": "dot", "title": "Propstei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Sommerhaus", "label": "Sommerhaus", "shape": "dot", "title": "Sommerhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Werkstatt", "label": "Werkstatt", "shape": "dot", "title": "Werkstatt"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gutspark", "label": "Gutspark", "shape": "dot", "title": "Gutspark"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Brotfabrik", "label": "Brotfabrik", "shape": "dot", "title": "Brotfabrik"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Lagerhalle", "label": "Lagerhalle", "shape": "dot", "title": "Lagerhalle"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Zolleinnehmerwohnhaus", "label": "Zolleinnehmerwohnhaus", "shape": "dot", "title": "Zolleinnehmerwohnhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Standbild", "label": "Standbild", "shape": "dot", "title": "Standbild"}, {"color": [0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "id": "Gerichtsgeb\u00e4ude", "label": "Gerichtsgeb\u00e4ude", "shape": "dot", "title": "Gerichtsgeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Arztpraxis", "label": "Arztpraxis", "shape": "dot", "title": "Arztpraxis"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Atelier", "label": "Atelier", "shape": "dot", "title": "Atelier"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Stall", "label": "Stall", "shape": "dot", "title": "Stall"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Industriebau", "label": "Industriebau", "shape": "dot", "title": "Industriebau"}, {"color": [0.9594002306805075, 0.9784083044982699, 0.9970472895040369, 1.0], "id": "Gef\u00e4ngnisbau", "label": "Gef\u00e4ngnisbau", "shape": "dot", "title": "Gef\u00e4ngnisbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Direktorenwohnhaus", "label": "Direktorenwohnhaus", "shape": "dot", "title": "Direktorenwohnhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Zivilschutzanlage", "label": "Zivilschutzanlage", "shape": "dot", "title": "Zivilschutzanlage"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Ruinenbau", "label": "Ruinenbau", "shape": "dot", "title": "Ruinenbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Hochschule", "label": "Hochschule", "shape": "dot", "title": "Hochschule"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Ehrenmal", "label": "Ehrenmal", "shape": "dot", "title": "Ehrenmal"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Stadtplatz", "label": "Stadtplatz", "shape": "dot", "title": "Stadtplatz"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Rundfunkhaus", "label": "Rundfunkhaus", "shape": "dot", "title": "Rundfunkhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Friedhofskapelle", "label": "Friedhofskapelle", "shape": "dot", "title": "Friedhofskapelle"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Sitzbank", "label": "Sitzbank", "shape": "dot", "title": "Sitzbank"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Statue", "label": "Statue", "shape": "dot", "title": "Statue"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pflasterung", "label": "Pflasterung", "shape": "dot", "title": "Pflasterung"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Ufermauer", "label": "Ufermauer", "shape": "dot", "title": "Ufermauer"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Jugendheim", "label": "Jugendheim", "shape": "dot", "title": "Jugendheim"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Obelisk", "label": "Obelisk", "shape": "dot", "title": "Obelisk"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schiff", "label": "Schiff", "shape": "dot", "title": "Schiff"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gericht", "label": "Gericht", "shape": "dot", "title": "Gericht"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "B\u00fcste", "label": "B\u00fcste", "shape": "dot", "title": "B\u00fcste"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schie\u00dfhaus", "label": "Schie\u00dfhaus", "shape": "dot", "title": "Schie\u00dfhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gleisanlage", "label": "Gleisanlage", "shape": "dot", "title": "Gleisanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Stadtmauer", "label": "Stadtmauer", "shape": "dot", "title": "Stadtmauer"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "B\u00f6rse", "label": "B\u00f6rse", "shape": "dot", "title": "B\u00f6rse"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Windm\u00fchle", "label": "Windm\u00fchle", "shape": "dot", "title": "Windm\u00fchle"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Restaurant", "label": "Restaurant", "shape": "dot", "title": "Restaurant"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Inspektorenhaus", "label": "Inspektorenhaus", "shape": "dot", "title": "Inspektorenhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Denkmal", "label": "Denkmal", "shape": "dot", "title": "Denkmal"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pf\u00f6rtnerhaus", "label": "Pf\u00f6rtnerhaus", "shape": "dot", "title": "Pf\u00f6rtnerhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Br\u00fccke", "label": "Br\u00fccke", "shape": "dot", "title": "Br\u00fccke"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gastst\u00e4tte", "label": "Gastst\u00e4tte", "shape": "dot", "title": "Gastst\u00e4tte"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Uferbau", "label": "Uferbau", "shape": "dot", "title": "Uferbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Werkswohnung", "label": "Werkswohnung", "shape": "dot", "title": "Werkswohnung"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Amtsgeb\u00e4ude", "label": "Amtsgeb\u00e4ude", "shape": "dot", "title": "Amtsgeb\u00e4ude"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schleuse", "label": "Schleuse", "shape": "dot", "title": "Schleuse"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bahnhof", "label": "Bahnhof", "shape": "dot", "title": "Bahnhof"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bootshaus", "label": "Bootshaus", "shape": "dot", "title": "Bootshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wohnhausgruppe", "label": "Wohnhausgruppe", "shape": "dot", "title": "Wohnhausgruppe"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Brauereigeb\u00e4ude", "label": "Brauereigeb\u00e4ude", "shape": "dot", "title": "Brauereigeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Konzertsaal", "label": "Konzertsaal", "shape": "dot", "title": "Konzertsaal"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Hochschulbau", "label": "Hochschulbau", "shape": "dot", "title": "Hochschulbau"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Gewerbegeb\u00e4ude", "label": "Gewerbegeb\u00e4ude", "shape": "dot", "title": "Gewerbegeb\u00e4ude"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Festbau", "label": "Festbau", "shape": "dot", "title": "Festbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bankhaus", "label": "Bankhaus", "shape": "dot", "title": "Bankhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Festhaus", "label": "Festhaus", "shape": "dot", "title": "Festhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Herrenhaus", "label": "Herrenhaus", "shape": "dot", "title": "Herrenhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Sonnenuhr", "label": "Sonnenuhr", "shape": "dot", "title": "Sonnenuhr"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "K\u00fcsterhaus", "label": "K\u00fcsterhaus", "shape": "dot", "title": "K\u00fcsterhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gewerbebau", "label": "Gewerbebau", "shape": "dot", "title": "Gewerbebau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pumpenhaus", "label": "Pumpenhaus", "shape": "dot", "title": "Pumpenhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gesch\u00e4ftshaus", "label": "Gesch\u00e4ftshaus", "shape": "dot", "title": "Gesch\u00e4ftshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Realschule", "label": "Realschule", "shape": "dot", "title": "Realschule"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Aussichtspavillon", "label": "Aussichtspavillon", "shape": "dot", "title": "Aussichtspavillon"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Domkirche", "label": "Domkirche", "shape": "dot", "title": "Domkirche"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Synagoge", "label": "Synagoge", "shape": "dot", "title": "Synagoge"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gartenpavillon", "label": "Gartenpavillon", "shape": "dot", "title": "Gartenpavillon"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Siedlung", "label": "Siedlung", "shape": "dot", "title": "Siedlung"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kutscherhaus", "label": "Kutscherhaus", "shape": "dot", "title": "Kutscherhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Meierei", "label": "Meierei", "shape": "dot", "title": "Meierei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Grabmal", "label": "Grabmal", "shape": "dot", "title": "Grabmal"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Brauerei", "label": "Brauerei", "shape": "dot", "title": "Brauerei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Volkspark", "label": "Volkspark", "shape": "dot", "title": "Volkspark"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Pflaster", "label": "Pflaster", "shape": "dot", "title": "Pflaster"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Feuerwache", "label": "Feuerwache", "shape": "dot", "title": "Feuerwache"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "W\u00e4rterwohnhaus", "label": "W\u00e4rterwohnhaus", "shape": "dot", "title": "W\u00e4rterwohnhaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Schie\u00dfanlage", "label": "Schie\u00dfanlage", "shape": "dot", "title": "Schie\u00dfanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Seemannsheim", "label": "Seemannsheim", "shape": "dot", "title": "Seemannsheim"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Relief", "label": "Relief", "shape": "dot", "title": "Relief"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schule", "label": "Schule", "shape": "dot", "title": "Schule"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Lichtspielhaus", "label": "Lichtspielhaus", "shape": "dot", "title": "Lichtspielhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Scheune", "label": "Scheune", "shape": "dot", "title": "Scheune"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kalkofen", "label": "Kalkofen", "shape": "dot", "title": "Kalkofen"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pfarrhaus", "label": "Pfarrhaus", "shape": "dot", "title": "Pfarrhaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Gastst\u00e4ttenbau", "label": "Gastst\u00e4ttenbau", "shape": "dot", "title": "Gastst\u00e4ttenbau"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kindergarten", "label": "Kindergarten", "shape": "dot", "title": "Kindergarten"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Toranlage", "label": "Toranlage", "shape": "dot", "title": "Toranlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Hafenmauer", "label": "Hafenmauer", "shape": "dot", "title": "Hafenmauer"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kreuzgang", "label": "Kreuzgang", "shape": "dot", "title": "Kreuzgang"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Werkswohnungen", "label": "Werkswohnungen", "shape": "dot", "title": "Werkswohnungen"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pavillon", "label": "Pavillon", "shape": "dot", "title": "Pavillon"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Wasserwerk", "label": "Wasserwerk", "shape": "dot", "title": "Wasserwerk"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Saal", "label": "Saal", "shape": "dot", "title": "Saal"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Entw\u00e4sserungsanlage", "label": "Entw\u00e4sserungsanlage", "shape": "dot", "title": "Entw\u00e4sserungsanlage"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Schuppen", "label": "Schuppen", "shape": "dot", "title": "Schuppen"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Pumpwerk", "label": "Pumpwerk", "shape": "dot", "title": "Pumpwerk"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Dom", "label": "Dom", "shape": "dot", "title": "Dom"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "B\u00fcrohaus", "label": "B\u00fcrohaus", "shape": "dot", "title": "B\u00fcrohaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Villa", "label": "Villa", "shape": "dot", "title": "Villa"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kaufhaus", "label": "Kaufhaus", "shape": "dot", "title": "Kaufhaus"}, {"color": [0.9655517108804306, 0.9823452518262207, 0.9990157631680123, 1.0], "id": "Waschhaus", "label": "Waschhaus", "shape": "dot", "title": "Waschhaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Mausoleum", "label": "Mausoleum", "shape": "dot", "title": "Mausoleum"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Gemeindehaus", "label": "Gemeindehaus", "shape": "dot", "title": "Gemeindehaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Postamt", "label": "Postamt", "shape": "dot", "title": "Postamt"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Bootsschuppen", "label": "Bootsschuppen", "shape": "dot", "title": "Bootsschuppen"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kirche", "label": "Kirche", "shape": "dot", "title": "Kirche"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Kirche ev.", "label": "Kirche ev.", "shape": "dot", "title": "Kirche ev."}, {"color": "rgba(255, 0, 0, 1.0)", "id": "Ausstellungshaus", "label": "Ausstellungshaus", "shape": "dot", "title": "Ausstellungshaus"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "B\u00e4ckerei", "label": "B\u00e4ckerei", "shape": "dot", "title": "B\u00e4ckerei"}, {"color": "rgba(255, 0, 0, 1.0)", "id": "M\u00fchlstein", "label": "M\u00fchlstein", "shape": "dot", "title": "M\u00fchlstein"}]);
+                  edges = new vis.DataSet([{"from": "Altenheim", "to": "Altenheim"}, {"from": "Amtsgeb\u00e4ude", "to": "Amtsgeb\u00e4ude"}, {"from": "Apotheke", "to": "Apotheke"}, {"from": "Arkade", "to": "Arkade"}, {"from": "Atelier", "to": "Atelier"}, {"from": "Ausstellungshaus", "to": "Ausstellungshaus"}, {"from": "Backhaus", "to": "Backhaus"}, {"from": "Bahnhof", "to": "Bahnhof"}, {"from": "Bauernhaus", "to": "Bauernhaus"}, {"from": "Zollamt", "to": "Zollamt"}, {"from": "Bootshaus", "to": "Bootshaus"}, {"from": "Br\u00fccke", "to": "Br\u00fccke"}, {"from": "Brunnen", "to": "Brunnen"}, {"from": "Bunker", "to": "Bunker"}, {"from": "Burg", "to": "Burg"}, {"from": "B\u00fcrohaus", "to": "B\u00fcrohaus"}, {"from": "B\u00fcste", "to": "B\u00fcste"}, {"from": "Denkmal", "to": "Denkmal"}, {"from": "Dock", "to": "Dock"}, {"from": "Doppelhaus", "to": "Doppelhaus"}, {"from": "Ehrenmal", "to": "Ehrenmal"}, {"from": "Einfriedung", "to": "Einfriedung"}, {"from": "Fenster", "to": "Fenster"}, {"from": "Friedhof", "to": "Friedhof"}, {"from": "Friedhofskapelle", "to": "Friedhofskapelle"}, {"from": "Garage", "to": "Garage"}, {"from": "Garten", "to": "Garten"}, {"from": "Gartenpavillon", "to": "Gartenpavillon"}, {"from": "Gastst\u00e4tte", "to": "Gastst\u00e4ttenbau"}, {"from": "Gemeindehaus", "to": "Gemeindehaus"}, {"from": "Gesch\u00e4ftshaus", "to": "Gesch\u00e4ftshaus"}, {"from": "Gleisanlage", "to": "Gleisanlage"}, {"from": "Grabmal", "to": "Grabmal"}, {"from": "Gutshaus", "to": "Gutshaus"}, {"from": "Halle", "to": "Halle"}, {"from": "Herrenhaus", "to": "Herrenhaus"}, {"from": "Hotel", "to": "Hotelbau"}, {"from": "Industriebau", "to": "Industriebau"}, {"from": "Kaffeehaus", "to": "Kaffeehaus"}, {"from": "Kaserne", "to": "Kaserne"}, {"from": "Kaufhaus", "to": "Kaufhaus"}, {"from": "Kegelbahn", "to": "Kegelbahn"}, {"from": "Kindergarten", "to": "Kindergarten"}, {"from": "Kirchturm", "to": "Kirchturm"}, {"from": "Kraftwerk", "to": "Kraftwerk"}, {"from": "Kran", "to": "Kran"}, {"from": "Krematorium", "to": "Krematorium"}, {"from": "Kreuzgang", "to": "Kreuzgang"}, {"from": "Lagerhalle", "to": "Lagerhalle"}, {"from": "Landhaus", "to": "Landhaus"}, {"from": "Laube", "to": "Laube"}, {"from": "Leuchtfeuer", "to": "Leuchtfeuer"}, {"from": "Leuchtturm", "to": "Leuchtturm"}, {"from": "Mauer", "to": "Mauer"}, {"from": "Mausoleum", "to": "Mausoleum"}, {"from": "Mietshaus", "to": "Mietshaus"}, {"from": "M\u00fchlstein", "to": "M\u00fchlstein"}, {"from": "Obelisk", "to": "Obelisk"}, {"from": "Orangerie", "to": "Orangerie"}, {"from": "Park", "to": "Park"}, {"from": "Pavillon", "to": "Pavillon"}, {"from": "Pfarrhaus", "to": "Pfarrhaus"}, {"from": "Pf\u00f6rtnerhaus", "to": "Pf\u00f6rtnerhaus"}, {"from": "Pier", "to": "Pier"}, {"from": "Plastik", "to": "Plastik"}, {"from": "Portal", "to": "Portal"}, {"from": "Postamt", "to": "Postamt"}, {"from": "Propstei", "to": "Propstei"}, {"from": "Pumpwerk", "to": "Pumpwerk"}, {"from": "Rathaus", "to": "Rathaus"}, {"from": "Reiterstandbild", "to": "Reiterstandbild"}, {"from": "Relief", "to": "Relief"}, {"from": "Remise", "to": "Remise"}, {"from": "Restaurant", "to": "Restaurant"}, {"from": "Saal", "to": "Saal"}, {"from": "Scheune", "to": "Scheune"}, {"from": "Schiff", "to": "Schiff"}, {"from": "Schleuse", "to": "Schleuse"}, {"from": "Schmiede", "to": "Schmiede"}, {"from": "Schornstein", "to": "Schornstein"}, {"from": "Schutzh\u00fctte", "to": "Schutzh\u00fctte"}, {"from": "Seezeichen", "to": "Seezeichen"}, {"from": "Siedlung", "to": "Siedlung"}, {"from": "Sommerhaus", "to": "Sommerhaus"}, {"from": "Sonnenuhr", "to": "Sonnenuhr"}, {"from": "Speicher", "to": "Speicher"}, {"from": "Stadtmauer", "to": "Stadtmauer"}, {"from": "Stadtplatz", "to": "Stadtplatz"}, {"from": "Stall", "to": "Stallbau"}, {"from": "Synagoge", "to": "Synagoge"}, {"from": "Teehaus", "to": "Teehaus"}, {"from": "Turnhalle", "to": "Turnhalle"}, {"from": "Villa", "to": "Villa"}, {"from": "Volkspark", "to": "Volkspark"}, {"from": "Waisenhaus", "to": "Waisenhaus"}, {"from": "Wandbild", "to": "Wandmalerei"}, {"from": "Wappenstein", "to": "Wappenstein"}, {"from": "Wasserturm", "to": "Wasserturm"}, {"from": "Wasserwerk", "to": "Wasserwerk"}, {"from": "Werft", "to": "Werft"}, {"from": "Werkstatt", "to": "Werkstatt"}, {"from": "Werkswohnung", "to": "Werkswohnung"}, {"from": "Werkswohnungen", "to": "Werkswohnung"}, {"from": "Windm\u00fchle", "to": "Windm\u00fchle"}, {"from": "Wirtschaftsgeb\u00e4ude", "to": "Wirtschaftsgeb\u00e4ude"}, {"from": "Wohnanlage", "to": "Wohnanlage"}, {"from": "Sielanlage", "to": "Siel"}, {"from": "Wohnheim", "to": "Wohnheim"}, {"from": "Amtshaus", "to": "Amtsgeb\u00e4ude"}, {"from": "Dienstgeb\u00e4ude", "to": "Amtsgeb\u00e4ude"}, {"from": "Praxishaus", "to": "Arztpraxis"}, {"from": "Sitzbank", "to": "Bank \u003cM\u00f6bel\u003e"}, {"from": "Steinbank", "to": "Bank \u003cM\u00f6bel\u003e"}, {"from": "Bankhaus", "to": "Bankgeb\u00e4ude"}, {"from": "Hofanlage", "to": "Bauernhof"}, {"from": "B\u00f6rse", "to": "B\u00f6rsengeb\u00e4ude"}, {"from": "Zivilschutzanlage", "to": "Bunker"}, {"from": "Kontorhaus", "to": "B\u00fcrohaus"}, {"from": "Pumpbrunnen", "to": "Brunnen"}, {"from": "Domkirche", "to": "Dom"}, {"from": "Dampfentw\u00e4sserungsanstalt", "to": "Entw\u00e4sserungsanlage"}, {"from": "Fabrik", "to": "Fabrikgeb\u00e4ude"}, {"from": "Feuerwache", "to": "Feuerwehrhaus"}, {"from": "Pfarrgarten", "to": "Garten"}, {"from": "Sondergarten", "to": "Garten"}, {"from": "Gartenhaus", "to": "Gartenhaus"}, {"from": "Gef\u00e4ngnis", "to": "Gef\u00e4ngnisbau"}, {"from": "Strafanstalt", "to": "Gef\u00e4ngnisbau"}, {"from": "Zellengef\u00e4ngnis", "to": "Gef\u00e4ngnisbau"}, {"from": "Amtsgericht", "to": "Gerichtsgeb\u00e4ude"}, {"from": "Gericht", "to": "Gerichtsgeb\u00e4ude"}, {"from": "Pressehaus", "to": "Gesch\u00e4ftshaus"}, {"from": "Gewerbebau", "to": "Gewerbegeb\u00e4ude"}, {"from": "Landgut", "to": "Gut \u003cLandwirtschaft\u003e"}, {"from": "Auktionshalle", "to": "Halle"}, {"from": "Packhalle", "to": "Lagergeb\u00e4ude"}, {"from": "Direktorenwohnhaus", "to": "Haus"}, {"from": "G\u00e4rtnerhaus", "to": "Haus"}, {"from": "Inspektorenhaus", "to": "Haus"}, {"from": "Katechesierhaus", "to": "Haus"}, {"from": "K\u00fcsterhaus", "to": "Haus"}, {"from": "Kutscherhaus", "to": "Haus"}, {"from": "M\u00fcllerwohnhaus", "to": "Haus"}, {"from": "Verwalterhaus", "to": "Haus"}, {"from": "W\u00e4rterwohnhaus", "to": "Haus"}, {"from": "Werkswohnhaus", "to": "Haus"}, {"from": "Wohnhaus", "to": "Haus"}, {"from": "Zolleinnehmerwohnhaus", "to": "Haus"}, {"from": "Seemannsheim", "to": "Heim"}, {"from": "Landsitz", "to": "Herrenhaus"}, {"from": "Hochschule", "to": "Hochschulbau"}, {"from": "Festhaus", "to": "Festbau"}, {"from": "Hitlerjugendheim", "to": "Jugendzentrum"}, {"from": "Jugendhaus", "to": "Jugendzentrum"}, {"from": "Jugendheim", "to": "Jugendzentrum"}, {"from": "Lichtspielhaus", "to": "Kino"}, {"from": "Kirche", "to": "Kirchenbau"}, {"from": "Kirche ev.", "to": "Kirchenbau"}, {"from": "Konzerthaus", "to": "Konzertsaal"}, {"from": "Krankenhaus", "to": "Krankenhausbau"}, {"from": "Krankenstation", "to": "Krankenhausbau"}, {"from": "K\u00fcchengeb\u00e4ude", "to": "K\u00fcchenbau"}, {"from": "Lagerhaus", "to": "Lagergeb\u00e4ude"}, {"from": "Packhaus", "to": "Lagergeb\u00e4ude"}, {"from": "Hafenmauer", "to": "Mauer"}, {"from": "Hofmeierhaus", "to": "Meierhof"}, {"from": "Meierei", "to": "Molkerei"}, {"from": "Museum", "to": "Museumsbau"}, {"from": "Gutspark", "to": "Park"}, {"from": "Parkanlage", "to": "Park"}, {"from": "Parlament", "to": "Parlamentsgeb\u00e4ude"}, {"from": "Pastorenhaus", "to": "Pfarrhaus"}, {"from": "Predigerhaus", "to": "Pfarrhaus"}, {"from": "Skulptur", "to": "Plastik"}, {"from": "Polizeiunterkunft", "to": "Polizeigeb\u00e4ude"}, {"from": "Polizeiwache", "to": "Polizeigeb\u00e4ude"}, {"from": "Pumpenhaus", "to": "Pumpwerk"}, {"from": "Schuppen", "to": "Remise"}, {"from": "Tonnenschuppen", "to": "Remise"}, {"from": "Staffage", "to": "Ruinenbau"}, {"from": "Rundfunkhaus", "to": "Rundfunkgeb\u00e4ude"}, {"from": "Schie\u00dfhaus", "to": "Schie\u00dfanlage"}, {"from": "Realschule", "to": "Schulgeb\u00e4ude"}, {"from": "Schule", "to": "Schulgeb\u00e4ude"}, {"from": "Sportanlage", "to": "Sportst\u00e4tte"}, {"from": "Standbild", "to": "Statue"}, {"from": "Stiftsgeb\u00e4ude", "to": "Haus"}, {"from": "Taufstein", "to": "Taufbecken"}, {"from": "Theater", "to": "Theaterbau"}, {"from": "Toranlage", "to": "Torbau"}, {"from": "Verkehrsturm", "to": "Verkehrsbau"}, {"from": "Ufermauer", "to": "Uferbau"}, {"from": "Verlagshaus", "to": "Verlagsgeb\u00e4ude"}, {"from": "Verwaltungsgeb\u00e4ude", "to": "Verwaltungsbau"}, {"from": "Waage", "to": "Waagehaus"}, {"from": "Wachhaus", "to": "Wachlokal"}, {"from": "W\u00e4scherei", "to": "Waschhaus"}, {"from": "Mietshausanlage", "to": "Wohnanlage"}, {"from": "Wohnhausgruppe", "to": "Wohnanlage"}, {"from": "Brotfabrik", "to": "Industriebau"}, {"from": "Zollhaus", "to": "Zollstelle"}, {"from": "Gildehaus", "to": "Zunfthaus"}, {"from": "Aussichtspavillon", "to": "Pavillon"}, {"from": "Gesindehaus", "to": "Haus"}, {"from": "Pflasterung", "to": "Pflaster"}, {"from": "Bootsschuppen", "to": "Remise"}, {"from": "B\u00e4ckerei", "to": "Handwerkerhaus"}, {"from": "Bibliothek", "to": "Bibliotheksbau"}, {"from": "Feuerwehr", "to": "Feuerwehrhaus"}, {"from": "Brauerei", "to": "Brauereigeb\u00e4ude"}, {"from": "Kalkofen", "to": "Kalkofen"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
